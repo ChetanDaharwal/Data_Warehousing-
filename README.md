@@ -82,7 +82,7 @@ EDA – explore and validate data insights.
 
 Modeling – build fact/dimension tables for analytics.
 
-![Data Flow From Diffrent Layers](gold.png)
+![Data Flow From Diffrent Layers](dataflow.png)
 
 
 
