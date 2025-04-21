@@ -31,6 +31,60 @@ This project involves:
    
 
 ---
+#Some SQL Transformation scripts used for data tranformation,standardization and normalization using advanced function is given below:  
+'''
+   
+      --Calculate the end date of a product record based on the start date of the next record for the same product key (prd_key).
+      SELECT CAST(
+           LEAD(prd_start_dt) OVER (
+               PARTITION BY prd_key 
+               ORDER BY prd_start_dt
+           ) - 1 AS DATE
+       ) AS prd_end_dt
+      FROM bronze.crm_prd_info;
+   
+   
+     --Select the most recent record per customer based on the cst_create_date.
+     SELECT cst_create_date FROM (
+       SELECT *,
+              ROW_NUMBER() OVER (
+                  PARTITION BY cst_id
+                  ORDER BY cst_create_date DESC
+              ) AS flag_last
+       FROM bronze.crm_cust_info
+       WHERE cst_id IS NOT NULL
+      ) t
+      
+      WHERE flag_last = 1;
+      
+      
+      
+      SELECT
+    -- Normalize Customer ID: remove 'NAS' prefix if present
+    CASE 
+        WHEN cid LIKE 'NAS%' THEN SUBSTRING(cid, 4, LEN(cid))
+        ELSE cid
+    END AS cid,
+
+    -- Clean invalid birthdates (future dates)
+    CASE 
+        WHEN bdate > GETDATE() THEN NULL
+        ELSE bdate
+    END AS bdate,
+
+    -- Standardize gender values
+    CASE 
+        WHEN UPPER(TRIM(gen)) IN ('F', 'FEMALE') THEN 'Female'
+        WHEN UPPER(TRIM(gen)) IN ('M', 'MALE') THEN 'Male'
+        ELSE 'n/a'
+    END AS gen
+
+      FROM bronze.erp_cust_az12;
+
+
+
+
+'''
 ##Data Modeling - In this project we have total 6 table contatining customers and product informations. 
 The data architecture for this project follows Star schema:
 ![Star Schema](datamodel.png)
