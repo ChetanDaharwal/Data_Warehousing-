@@ -36,6 +36,57 @@ The data architecture for this project follows Star schema:
 ![Star Schema](datamodel.png)
 
 
+##🏗️ Data Flow Across Layers – From Raw to Insight
+The image showcases the end-to-end data pipeline that takes raw data through a structured process of transformation and modeling. Let's break it down layer by layer:
+
+🧱 1. Raw Layer (Landing Zone)
+- This is the initial stage where raw data lands directly from the source systems.
+
+- Data can come from different sources such as databases, APIs, logs, or files (CSV, JSON, etc.).
+
+- No transformations are applied here – it's untouched data, used as a source of truth.
+
+
+🔄 2. Staging Layer
+- Here, SQL queries are used to clean and prepare the raw data.
+
+- Basic transformations occur: fixing nulls, standardizing formats, filtering unnecessary records, etc.
+
+- This stage acts as a preparation zone, making the data consistent and ready for analysis.
+
+
+📊 3. EDA Layer (Exploratory Data Analysis)
+- In this layer, data analysts and engineers use EDA techniques to explore trends, patterns, and anomalies.
+
+- Helps identify relationships, validate assumptions, and check data quality.
+
+- Common tools: SQL, Python (Pandas, Matplotlib), and notebooks.
+
+🧩 4. Modeling Layer (Star Schema)
+- Data is now structured into Fact and Dimension Tables, forming a dimensional model:
+
+- Fact Tables contain measurable, quantitative data (e.g., Sales Amount).
+
+- Dimension Tables hold descriptive data (e.g., Product, Customer, Time).
+
+- This star schema design improves query performance and makes it easier for reporting tools (like Power BI, Tableau) to consume.
+
+- The goal is to enable business intelligence and reporting with a user-friendly schema.
+
+✅ Summary of the Flow
+Raw – untouched data.
+
+Staging – cleaned and standardized using SQL.
+
+EDA – explore and validate data insights.
+
+Modeling – build fact/dimension tables for analytics.
+
+![Data Flow From Diffrent Layers](datamodel.png)
+
+
+
+
 ---
 
 ## 🚀 Project Requirements
